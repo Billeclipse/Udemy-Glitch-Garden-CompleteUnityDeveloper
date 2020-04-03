@@ -1,29 +1,53 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
 
-	public float autoLoadNextLevelAfter;
-	
-	void Start(){
-		if(autoLoadNextLevelAfter <= 0){
-			//Debug.Log("Level auto load disabled, use a positive number in seconds");
-		}else{
-			Invoke ("LoadNextLevel", autoLoadNextLevelAfter);
-		}		
+	[SerializeField] int timeToWait = 4;
+
+	private int currentSceneIndex;
+
+	//public float autoLoadNextLevelAfter;
+
+	private void Start()
+	{
+		currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+		if(currentSceneIndex == 0)
+		{
+			StartCoroutine(WaitForTimeAndLoadNextLevel());
+		}
+
+		//if(autoLoadNextLevelAfter <= 0){
+		//	//Debug.Log("Level auto load disabled, use a positive number in seconds");
+		//}else{
+		//	Invoke ("LoadNextLevel", autoLoadNextLevelAfter);
+		//}		
 	}
 
-	public void LoadLevel(string name){
-		//Debug.Log("Level load requested for: "+ name);
-		Application.LoadLevel(name);
+	private IEnumerator WaitForTimeAndLoadNextLevel()
+	{
+		yield return new WaitForSeconds(timeToWait);
+		LoadNextLevel();
 	}
-	
+
+	public void LoadLevel(string name)
+	{		
+		SceneManager.LoadScene(name);
+
+		//Debug.Log("Level load requested for: "+ name);
+		//Application.LoadLevel(name);
+	}
+
 	public void QuitRequest(){
 		//Debug.Log("Quit");
 		Application.Quit();
 	}
 	
 	public void LoadNextLevel(){
-		Application.LoadLevel(Application.loadedLevel + 1 );	
+		SceneManager.LoadScene(currentSceneIndex + 1);
+
+		//Application.LoadLevel(Application.loadedLevel + 1 );	
 	}
 }
