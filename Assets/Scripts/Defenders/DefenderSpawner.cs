@@ -19,14 +19,20 @@ public class DefenderSpawner : MonoBehaviour {
 	void OnMouseDown () {
 		Vector2 rawPos = CalculateWorldPointOfMouseClick();
 		Vector2 roundedPos = SnapToGrid (rawPos);
-		GameObject defender = Button.selectedDefender;		
-		int defenderCost = defender.GetComponent<Defender>().starCost;
-		
-		if(starDisplay.UseStars(defenderCost) == StarDisplay.Status.SUCCESS){
-			SpawnDefender (defender,roundedPos);
-		}else{
-			//Debug.Log ("Insufficient stars");
-		}
+		GameObject defender = Button.selectedDefender;
+		if (defender != null)
+		{
+			int defenderCost = defender.GetComponent<Defender>().starCost;
+
+			if (starDisplay.UseStars(defenderCost) == StarDisplay.Status.SUCCESS)
+			{
+				SpawnDefender(defender, roundedPos);
+			}
+			else
+			{
+				//Debug.Log ("Insufficient stars");
+			}
+		}	
 	}
 
 	void SpawnDefender (GameObject defender, Vector2 roundedPos){
