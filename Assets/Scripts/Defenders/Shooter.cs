@@ -7,10 +7,9 @@ public class Shooter : MonoBehaviour {
 	
 	private GameObject projectileParent;
 	private Animator animator;
-	private Spawner myLaneSpawner;
+	private AttackerSpawner myLaneSpawner;
 	
 	void Start(){
-		//animator = GameObject.FindObjectOfType<Animator>();
 		animator = GetComponent<Animator>();
 		SetMyLaneSpawner();
 		//Creates a Parent if necessary.
@@ -19,20 +18,22 @@ public class Shooter : MonoBehaviour {
 		if(!projectileParent){
 			projectileParent = new GameObject("Projectiles");
 		}
+
+		animator.SetBool("isAttacking", true); // TODO: Remove it in the future also fix the cactus cost
 	}
 	
 	void Update(){
-		if(IsAttackerAheadInLane()){
-			animator.SetBool("isAttacking", true);
-		}else{
-			animator.SetBool("isAttacking", false);
-		}
+		//if(IsAttackerAheadInLane()){
+		//	animator.SetBool("isAttacking", true);
+		//}else{
+		//	animator.SetBool("isAttacking", false);
+		//}
 	}
 	//Look throught all spawners, and set myLaneSpanwer if found
 	void SetMyLaneSpawner(){
-		Spawner[] allSpawners = GameObject.FindObjectsOfType<Spawner>();
+		AttackerSpawner[] allSpawners = GameObject.FindObjectsOfType<AttackerSpawner>();
 		bool foundSpawner = false;
-		foreach(Spawner spawner in allSpawners){
+		foreach(AttackerSpawner spawner in allSpawners){
 			if(spawner.transform.position.y == transform.position.y){
 				myLaneSpawner = spawner;
 				foundSpawner = true;
@@ -60,8 +61,10 @@ public class Shooter : MonoBehaviour {
 	}
 	
 	private void Fire(){
-		GameObject newProjectile = Instantiate(projectile) as GameObject;
-		newProjectile.transform.parent = projectileParent.transform;
-		newProjectile.transform.position = gun.transform.position;
+		Instantiate(projectile, gun.transform.position, transform.rotation);
+
+		//GameObject newProjectile = Instantiate(projectile) as GameObject;
+		//newProjectile.transform.parent = projectileParent.transform;
+		//newProjectile.transform.position = gun.transform.position;
 	}
 }
