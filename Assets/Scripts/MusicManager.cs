@@ -17,16 +17,16 @@ public class MusicManager : MonoBehaviour {
 		audioSource.volume = PlayerPrefsManager.GetMasterVolume();
 	}
 	
-	void OnLevelWasLoaded(int level){
-		AudioClip thisLevelMusic = levelMusicChangeArray[level];
-		//Debug.Log ("Playing clip: " + thisLevelMusic);
-		//If there's some music attached.
-		if(thisLevelMusic){
-			audioSource.clip = thisLevelMusic;
-			audioSource.loop = true;
-			audioSource.Play();
-		}	
-	}
+	//void OnLevelWasLoaded(int level){
+	//	AudioClip thisLevelMusic = levelMusicChangeArray[level];
+	//	//Debug.Log ("Playing clip: " + thisLevelMusic);
+	//	//If there's some music attached.
+	//	if(thisLevelMusic){
+	//		audioSource.clip = thisLevelMusic;
+	//		audioSource.loop = true;
+	//		audioSource.Play();
+	//	}	
+	//}
 	
 	public void SetVolume(float volume){
 		audioSource.volume = volume;
